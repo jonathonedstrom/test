@@ -3,16 +3,20 @@ package com.example.myriadchallenge;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
-public class Login extends ActionBarActivity {
-
+public class Login extends ActionBarActivity implements View.OnClickListener {
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,6 +27,15 @@ public class Login extends ActionBarActivity {
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
+	
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	            Bundle savedInstanceState) {
+	        View rootView = inflater.inflate(R.layout.fragment_login,
+	                container, false);
+	        
+
+	        return rootView;
+	 }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,13 +65,49 @@ public class Login extends ActionBarActivity {
 		public PlaceholderFragment() {
 		}
 
+		private EditText username;
+		private EditText password;
+		private Button button;
+		private String tempUsername = "";
+		private String tempPassword = "";
+		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_login,
 					container, false);
+			
+	        username = (EditText) rootView.findViewById(R.id.txtUsername);
+			password = (EditText) rootView.findViewById(R.id.txtPassword);
+			button = (Button) rootView.findViewById(R.id.loginbutton); 
+			
+	        button.setOnClickListener(new View.OnClickListener() {
+
+	        @Override
+	        public void onClick(View v) {
+	        	
+	        	tempUsername = username.getText().toString();
+	        	tempPassword = password.getText().toString();
+	        	
+	        	if(tempUsername.equals("lancelot") && tempPassword.equals("arthurDoesntKnow"))
+	    		{
+	    			Intent intent = new Intent(getActivity(), QuestsList.class);
+	    			startActivity(intent);
+	    		}
+	    		else
+	    		{
+	    			password.setError("Incorrect Login Information");
+	    		}
+	        }
+	        }); 
+			
 			return rootView;
 		}
 	}
 
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+	}
 }
